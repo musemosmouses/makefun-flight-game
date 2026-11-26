@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Skyhook Valley — Bush Plane Ring Run</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0e1420;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; }
+  #game { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #hud { position: fixed; inset: 0; width: 100%; height: 100%; display: block;
+    pointer-events: none; }
+  .screen { position: fixed; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    background: linear-gradient(180deg, rgba(8, 14, 26, 0.55), rgba(8, 14, 26, 0.78));
+    z-index: 10; }
+  .screen.hidden { display: none; }
+  .screen h1 { font-size: 64px; margin: 0 0 8px; letter-spacing: 4px;
+    text-shadow: 0 4px 24px rgba(0,0,0,0.6); }
+  .screen h1 .accent { color: #ffc857; }
+  .screen p { font-size: 18px; line-height: 1.55; margin: 6px 0; max-width: 640px;
+    color: #e8ecf2; }
+  .screen .sub { color: #9fb4cc; font-size: 15px; }
+  .controls { margin: 18px 0 6px; font-size: 15px; line-height: 1.9; color: #dfe7f2;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 12px; padding: 12px 22px; }
+  .controls b { color: #ffc857; }
+  button { margin-top: 22px; font-size: 20px; font-weight: 700; letter-spacing: 1px;
+    color: #14100a; background: #ffc857; border: 0; border-radius: 999px;
+    padding: 14px 42px; cursor: pointer; box-shadow: 0 6px 24px rgba(0,0,0,0.45); }
+  button:hover { background: #ffd97a; }
+  #best-score { margin-top: 14px; color: #7dff8a; font-weight: 600; }
+  #final-stats { font-size: 17px; color: #ffc857; font-weight: 600; }
+  #status { position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap; }
+</style>
+</head>
+<body>
+<canvas id="game" aria-label="Skyhook Valley: fly the Kestrel bush plane through 12 rings over the valley, then land on the runway"></canvas>
+<canvas id="hud" aria-hidden="true"></canvas>
+
+<div class="screen" id="screen-title">
+  <h1>SKYHOOK <span class="accent">VALLEY</span></h1>
+  <p>Bush-plane ring run. Take off from the dirt strip, thread <b>12 glowing rings</b>
+  across the valley — low over the lake, through the canyon, around the peak —
+  then land back on the runway before your fuel or your time runs out.</p>
+  <div class="controls">
+    <b>W / S</b> throttle &nbsp;·&nbsp; <b>↑ ↓</b> pitch &nbsp;·&nbsp; <b>← →</b> / <b>A D</b> bank &amp; turn<br>
+    <b>Q / E</b> rudder &nbsp;·&nbsp; <b>F</b> flaps &nbsp;·&nbsp; <b>B</b> brakes &nbsp;·&nbsp; <b>C</b> cockpit cam<br>
+    <b>P</b> pause &nbsp;·&nbsp; <b>R</b> restart &nbsp;·&nbsp; <b>M</b> mute &nbsp;·&nbsp; drag the mouse to steer
+  </div>
+  <p class="sub">Each ring: +100 pts and +6 s. Landing: +250 pts, plus time and fuel bonuses.
+  Refuel only by landing. Watch the stall — below 47 kt the wing quits.</p>
+  <button id="btn-fly" type="button">FLY THE SORTIE</button>
+  <div id="best-score"></div>
+</div>
+
+<div class="screen hidden" id="screen-crashed">
+  <h1 class="final-title">SORTIE OVER</h1>
+  <p class="final-stats"></p>
+  <p class="sub">The Kestrel is tough, the valley is tougher. Fly it again.</p>
+  <button id="btn-retry" type="button">FLY AGAIN</button>
+</div>
+
+<div class="screen hidden" id="screen-complete">
+  <h1 class="final-title">MISSION COMPLETE</h1>
+  <p class="final-stats"></p>
+  <p class="sub">Twelve rings, one runway, wheels down. The valley is yours.</p>
+  <button id="btn-again" type="button">FLY AGAIN</button>
+</div>
+
+<p id="status" role="status" aria-live="polite"></p>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
